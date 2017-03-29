@@ -5,9 +5,6 @@ import numpy as np
 from random import shuffle
 from sys import argv
 from fabric.api import *
-from fabric.contrib.console import confirm
-from fabric.contrib.project import rsync_project
-import fabric.operations as op
 from sys import argv
 
 def rms(ss):
