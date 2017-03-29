@@ -48,14 +48,16 @@ def silence(infile):
     convert(infile)
 
 def silence_all():
-    local("mkdir -p ./shortened")
-    fileset = local("ls .", capture=True).split("\n")
-    shuffle(fileset)
-    for f in fileset:
-        if f.split(".")[-1] in ["ogg", "opus", "m4a", "mp3"]:
-            try:
-                silence(f)
-            except Exception:
-                pass
+    with lcd(argv[1]):
+        local("mkdir -p ./shortened")
+        fileset = local("ls .", capture=True).split("\n")
+        shuffle(fileset)
+        for f in fileset:
+            if f.split(".")[-1] in ["ogg", "opus", "m4a", "mp3"]:
+                try:
+                    silence(f)
+                    local("rm -f /tmp/*wav")
+                except Exception:
+                    pass
 
 silence_all()
