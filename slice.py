@@ -5,7 +5,6 @@ import numpy as np
 from random import shuffle
 from sys import argv
 from fabric.api import *
-from sys import argv
 
 THRESHOLD = 1.0
 SIZE_LIMIT = 10
