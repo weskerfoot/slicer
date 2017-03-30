@@ -7,12 +7,15 @@ from sys import argv
 from fabric.api import *
 from sys import argv
 
+THRESHOLD = 1.0
+SIZE_LIMIT = 10
+
 def rms(ss):
     return np.sqrt(np.abs(np.mean(np.square(ss))))
 
 def findCeiling(ss, factor):
     slice = len(ss)
-    while not (rms(ss[0:slice]) < 1.2):
+    while not (rms(ss[0:slice]) < THRESHOLD):
         slice = int(len(ss)/factor)
         factor += 1
     return slice
@@ -30,7 +33,7 @@ def convert(infile):
     # the total number of samples
     total = float(len(pcm[1]))
 
-    if length <= 8:
+    if length <= SIZE_LIMIT:
         sio.write("/tmp/%s.silenced.wav" % infile, pcm[0], pcm[1][ceiling:])
         local("cp /tmp/\"%s.silenced.wav\" ./shortened/\"%s.wav\"" % (infile, infile))
         local("rm /tmp/\"%s.silenced.wav\"" % infile)
