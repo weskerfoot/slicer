@@ -6,7 +6,7 @@ from random import shuffle
 from sys import argv
 from fabric.api import *
 
-THRESHOLD = 1.0
+THRESHOLD = 0.8
 SIZE_LIMIT = 10
 
 def rms(ss):
@@ -47,6 +47,10 @@ def silence(infile):
     convert(infile)
 
 def silence_all():
+    if len(argv) < 2:
+        print "You must pass a directory as the first argument"
+        return
+
     with lcd(argv[1]):
         local("mkdir -p ./shortened")
         fileset = local("ls .", capture=True).split("\n")
