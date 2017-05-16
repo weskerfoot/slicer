@@ -10,9 +10,15 @@ THRESHOLD = 0.8
 SIZE_LIMIT = 10
 
 def rms(ss):
+    """
+    Takes the root-mean-square of an array of samples
+    """
     return np.sqrt(np.abs(np.mean(np.square(ss))))
 
 def findCeiling(ss, factor):
+    """
+    Attempts to find the sample at which the silence ends
+    """
     slice = len(ss)
     while not (rms(ss[0:slice]) < THRESHOLD):
         slice = int(len(ss)/factor)
@@ -20,6 +26,9 @@ def findCeiling(ss, factor):
     return slice
 
 def convert(infile):
+    """
+    Takes a path to a file and tries to remove leading silence
+    """
     pcm = sio.read("/tmp/%s.to_silence.wav" % infile)
     sample_rate, samples = pcm
 
@@ -40,13 +49,22 @@ def convert(infile):
     local("rm /tmp/\"%s.to_silence.wav\"" % infile)
 
 def to_wav(infile):
+    """
+    Takes a path to a file and converts it to PCM (wav format)
+    """
     local("ffmpeg -i \"%s\" /tmp/\"%s.to_silence.wav\"" % (infile, infile))
 
 def silence(infile):
+    """
+    Converts a file to PCM and then removes silence
+    """
     to_wav(infile)
     convert(infile)
 
 def silence_all():
+    """
+    Removes the silence from all files in a given directory
+    """
     if len(argv) < 2:
         print "You must pass a directory as the first argument"
         return
