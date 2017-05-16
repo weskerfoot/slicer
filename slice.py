@@ -15,7 +15,7 @@ def rms(ss):
     """
     return np.sqrt(np.abs(np.mean(np.square(ss))))
 
-def findCeiling(ss, factor):
+def find_ceiling(ss, factor):
     """
     Attempts to find the sample at which the silence ends
     """
@@ -36,7 +36,7 @@ def convert(infile):
     length = (len(samples) / float(sample_rate)) / 60.0
 
     # the first n samples to cut out
-    ceiling = findCeiling(samples, 2)
+    ceiling = find_ceiling(samples, 2)
 
     # the total number of samples
     total = float(len(pcm[1]))
